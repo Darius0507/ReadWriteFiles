@@ -63,38 +63,43 @@ class PersonOperationTest {
         () -> personOperation.birthDayValidation("input.csv", month, "out.csv"));
   }
 
-
-
   @Test
-    void sameFirstNameAndLastName() throws IOException {
-      //given
-      given(personParser.parsePersons("input.csv")).willReturn(List.of(
-              new Person("Zoe", "Adams", LocalDate.of(1992, 4, 12)),
-              new Person("Zoe", "Smith", LocalDate.of(1996, 4, 12)),
-              new Person("zoe", "Mustafa", LocalDate.of(2000, 4, 10))));
-      //when
-      personOperation.birthDayValidation("input.csv", 4, "out.csv");
+  void sameFirstNameAndLastName() throws IOException {
+    // given
+    given(personParser.parsePersons("input.csv"))
+        .willReturn(
+            List.of(
+                new Person("Zoe", "Adams", LocalDate.of(1992, 4, 12)),
+                new Person("Zoe", "Smith", LocalDate.of(1996, 4, 12)),
+                new Person("zoe", "Mustafa", LocalDate.of(2000, 4, 10))));
+    // when
+    personOperation.birthDayValidation("input.csv", 4, "out.csv");
 
-      //then
-      then(fileWriter).should().writeLines("out.csv", List.of(
-              "Zoe Adams","zoe Mustafa","Zoe Smith"));
-
+    // then
+    then(fileWriter)
+        .should()
+        .writeLines("out.csv", List.of("Zoe Adams", "zoe Mustafa", "Zoe Smith"));
   }
 
-    @Test
-    void parserFail() throws IOException {
-        //given
-        given(personParser.parsePersons("input.csv")).willThrow(new IOException("File not found"));
-        //when & then
-        assertThrows(IOException.class, () -> personOperation.birthDayValidation("input.csv", 5, "out.csv"));
-    }
-    @Test
-    void writerFail() throws IOException {
-        //given
-        given(personParser.parsePersons("input.csv")).willReturn(List.of());
-        willThrow(new IOException("Cnnot write file")).given(fileWriter).writeLines("out.csv",List.of());
+  @Test
+  void parserFail() throws IOException {
+    // given
+    given(personParser.parsePersons("input.csv")).willThrow(new IOException("File not found"));
+    // when & then
+    assertThrows(
+        IOException.class, () -> personOperation.birthDayValidation("input.csv", 5, "out.csv"));
+  }
 
-        //when & then
-        assertThrows(IOException.class, () -> personOperation.birthDayValidation("input.csv",5,"out.csv"));
-    }
+  @Test
+  void writerFail() throws IOException {
+    // given
+    given(personParser.parsePersons("input.csv")).willReturn(List.of());
+    willThrow(new IOException("Cnnot write file"))
+        .given(fileWriter)
+        .writeLines("out.csv", List.of());
+
+    // when & then
+    assertThrows(
+        IOException.class, () -> personOperation.birthDayValidation("input.csv", 5, "out.csv"));
+  }
 }

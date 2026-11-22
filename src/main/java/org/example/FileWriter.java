@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FileWriter {
 
-    public void writeLines (String fileName, List<String> lines) throws IOException {
-        Files.write(Paths.get(fileName), lines);
-    }
+  public void writeLines(String fileName, List<String> lines) throws IOException {
+    Files.write(Paths.get(fileName), lines);
+  }
 }

@@ -7,7 +7,8 @@ import java.util.List;
 
 public class FileReader {
 
-    public List<String> readLines(String fileName) throws IOException {
+  public List<String> readLines(String fileName) throws IOException {
 
-        return Files.readAllLines(Paths.get(fileName));}
+    return Files.readAllLines(Paths.get(fileName));
+  }
 }
